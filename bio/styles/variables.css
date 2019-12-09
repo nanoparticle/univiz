@@ -1,0 +1,8 @@
+:root {
+	--nav-bg-color: #333;
+	--nav-text-color: #eee;
+	--nav-hover-bg-color: #eee;
+	--nav-hover-text-color: #000;
+	--nav-active-bg-color: #eee;
+	--nav-active-text-color: #000;
+}

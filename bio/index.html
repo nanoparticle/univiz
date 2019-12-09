@@ -1,0 +1,142 @@
+<html>
+	<head>
+		<title>UniViz: Unified Visualization for Bioinformatics Analyses</title>
+		<link rel="stylesheet" href="styles/variables.css"/>
+		<link rel="stylesheet" href="styles/topnav.css"/>
+		<link rel="stylesheet" href="styles/toolnav.css"/>
+		<link rel="stylesheet" href="styles/index.css"/>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.1"></script>
+		<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.4"></script>
+		
+		<script src="js/squiggle.js"></script>
+		<script src="js/yau-bp.js"></script>
+		<script src="js/gates.js"></script>
+		<script src="js/fasta.js"></script>
+		<script>
+			$(document).ready(function(){
+				//INIT SECTION
+				
+				$(".page.config").load("./config.html");
+				$(".page.about").load("./about.html");
+				
+				$(".setpage").click(function() {
+					var id = $(this).attr('id');
+					setpage(id);
+				});
+				$("#toolbutton").click(function() {
+					$(".toolnav").toggle();
+					$(".main > div").toggleClass("sidebarmargin");
+				});
+				
+				setpage("config");
+				
+				initColors();
+				initSquiggle("canvas.page.squiggle");
+				initYaubp("canvas.page.yaubp");
+				initGates("canvas.page.gates");
+				
+				function setpage(name) {
+					$(".page").hide();
+					$(".page." + name).show();
+					$(".setpage").removeClass("active");
+					$(".setpage#" + name).addClass("active");
+				}
+				
+				function initColors() {
+					//https://stackoverflow.com/a/4382138
+					window.colors = ['#FFB300', '#803E75', '#FF6800', '#A6BDD7', '#C10020', '#CEA262', '#817066', '#007D34', '#F6768E', '#00538A', '#FF7A5C', '#53377A', '#FF8E00', '#B32851', '#F4C800', '#7F180D', '#93AA00', '#593315', '#F13A13', '#232C16'];
+					console.log(window.colors);
+				}
+				//CONFIG SECTION
+				
+				$(".page.config").on('click', '#parse_fasta', function() {
+					var text = $("#fasta_input").val();
+					window.fasta_data = parseFasta(text, '');
+					
+					setDataSquiggle(window.fasta_data);
+					setDataYaubp(window.fasta_data);
+					setDataGates(window.fasta_data);
+					
+					setColors();
+				});
+				
+				$(".toolnav").on({
+				    mouseenter: function (e) {
+				       //console.log($(".colorpicker").index(e.currentTarget));
+				       var i = $(".colorpicker").index(e.currentTarget);
+				       window.squiggleChart.data.datasets[i].borderWidth = 4;
+				       window.squiggleChart.update();
+				       
+				       window.yaubpChart.data.datasets[i].borderWidth = 4;
+				       window.yaubpChart.update();
+				       
+				       window.gatesChart.data.datasets[i].borderWidth = 5;
+				       window.gatesChart.update();
+				    },
+				    mouseleave: function (e) {
+				        //console.log($(".colorpicker").index(e.currentTarget));
+				        var i = $(".colorpicker").index(e.currentTarget);
+						window.squiggleChart.data.datasets[i].borderWidth = 2;
+						window.squiggleChart.update();
+						
+						window.yaubpChart.data.datasets[i].borderWidth = 2;
+				        window.yaubpChart.update();
+				        
+				        window.gatesChart.data.datasets[i].borderWidth = 2;
+				        window.gatesChart.update();
+				    }
+				}, '.colorpicker');
+				
+				$(".toolnav").on('change', '.colorpicker', function (e) {
+				    //console.log($(".colorpicker").index(e.currentTarget));
+				    var i = $(".colorpicker").index(e.currentTarget);
+				    window.colors[i] = $(e.currentTarget).val();
+					window.squiggleChart.data.datasets[i].borderColor = window.colors[i];
+					window.squiggleChart.update();
+					
+					window.yaubpChart.data.datasets[i].borderColor = window.colors[i];
+					window.yaubpChart.update();
+					
+					window.gatesChart.data.datasets[i].borderColor = window.colors[i];
+					window.gatesChart.update();
+				   });
+				
+				function setColors() {
+					$(".toolnav").empty();
+					for (var i = 0; i < window.fasta_data.length; i++) {
+						var s = "<input type='color' class='colorpicker' value='" + window.colors[i] + "'></br>";
+						$(".toolnav").append(s);
+					}
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<!-- Top Navigation -->
+		<div class="topnav">
+			<div class="setpage" id="config">UniViz</div>
+			<div class="setpage" id="squiggle">Squiggle</div>
+			<div class="setpage" id="yaubp">Yau-BP</div>
+			<div class="setpage" id="gates">Gates</div>
+			<div class="setpage" id="about">About</div>
+			<div style="float: right;" id="toolbutton">Tools</div>
+		</div>
+
+		<!-- Side navigation -->
+		<div class="toolnav">
+		</div>
+
+		<!-- Page content -->
+		<div class="main" id="univiz">
+			<div class="page sidebarmargin config" id=""></div>
+			<canvas class="page squiggle" id=""></canvas>
+			<canvas class="page yaubp" id=""></canvas>
+			<canvas class="page gates" id=""></canvas>
+			<div class="page sidebarmargin about" id=""></div>
+		</div>
+	</body>
+</html>

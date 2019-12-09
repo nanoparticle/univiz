@@ -1,0 +1,23 @@
+body {
+	margin: 44px 0px 0px 0px; /* Same as the height of the navbar */
+}
+
+.main {
+	height: 100%;
+}
+
+.main .sidebarmargin {
+	margin-right: 200px; /* Same as the width of the sidebar */
+}
+
+.main {
+	overflow: auto;
+	font-size: 20px;
+	text-align: justify;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+
+.main h1 {
+	text-align: center;
+}

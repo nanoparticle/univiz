@@ -1,0 +1,32 @@
+/* Add a black background color to the top navigation */
+.topnav {
+	background-color: var(--nav-bg-color);
+	overflow: hidden;
+	width: 100%; /* Set the width of the sidebar */
+	position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+	z-index: 2; /* Stay on top */
+	top: 0px; /* Stay at the top */
+	left: 0px;
+}
+
+/* Style the links inside the navigation bar */
+.topnav div {
+	float: left;
+	color: var(--nav-text-color);
+	text-align: center;
+	padding: 12px 16px;
+	font-size: 17px;
+	cursor: pointer;
+}
+
+/* Change the color of links on hover */
+.topnav div:hover {
+	background-color: var(--nav-hover-bg-color);
+	color: var(--nav-hover-text-color);
+}
+
+/* Add a color to the active/current link */
+.topnav div.active {
+	background-color: var(--nav-active-bg-color);
+	color: var(--nav-active-text-color);
+}

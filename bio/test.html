@@ -1,0 +1,67 @@
+<html>
+	<head>
+		<title>Canvas Test</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.1"></script>
+
+		<style>
+			body {
+				margin: 0px;
+			}
+			#squiggleCanvas {
+
+			}
+		</style>
+		<script>
+			$(document).ready(function() {
+				initSquiggle();
+			});
+
+			function initSquiggle() {
+				var squiggleCanvas = $("#squiggleCanvas")[0];
+				//squiggleCanvas.width = $("body").width();
+				//squiggleCanvas.height = $("body").height();
+
+				var ctx = document.getElementById('squiggleCanvas').getContext('2d');
+				var chart = new Chart(ctx, {
+					// The type of chart we want to create
+					type : 'line',
+
+					// The data for our dataset
+					data : {
+						labels : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+						datasets : [{
+							label : 'My First dataset',
+							backgroundColor : 'rgb(255, 99, 132)',
+							borderColor : 'rgb(255, 99, 132)',
+							data : [0, 10, 5, 2, 20, 30, 45]
+						}]
+					},
+
+					// Configuration options go here
+					options : {
+						maintainAspectRatio : false
+					}
+				});
+			}
+
+			
+			$(window).resize(function() {
+				if ($("#squiggleCanvas").length) {
+					var squiggleCanvas = $("#squiggleCanvas")[0];
+					//squiggleCanvas.width = $("body").width();
+					//squiggleCanvas.height = $("body").height();
+				}
+			});
+			
+		</script>
+	</head>
+	<body>
+		<canvas id="squiggleCanvas">
+			<p>
+				This functionality requires a browser that supports the canvas element.
+			</p>
+		</canvas>
+	</body>
+</html>
