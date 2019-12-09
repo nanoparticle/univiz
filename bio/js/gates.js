@@ -140,7 +140,7 @@ function dnaToDataGates(dna) {
 			break;
 		case "-":
 			data.push({
-				x : prev.x + 1,
+				x : prev.x,
 				y : prev.y
 			});
 			break;
